@@ -50,10 +50,7 @@ class Day3Controller extends AbstractController
     {
         $arrayInput = $this->makeArrayInput($rows);
         $numbersToCount = $this->listNumbersToCountByStar($arrayInput);
-        // loop though the rows if a field is a *
-        // find the 2 numbers
-        // if there are 2 numbers multiply them and return
-        // add all numbers for the result
+
         return array_sum($numbersToCount);
     }
 
@@ -142,8 +139,6 @@ class Day3Controller extends AbstractController
         $numbersToCount = [];
 
         foreach ($arrayInput as $y => $yValue) {
-            $numbers = [];
-
             foreach ($yValue as $i => $iValue) {
                 if ($iValue === '*') {
                     $numbers = $this->getNumbers($y, $i, $arrayInput);
@@ -151,8 +146,6 @@ class Day3Controller extends AbstractController
                         dump($numbers);
                         $numbersToCount[] = $numbers[0] * $numbers[1];
                     }
-                    $numbers = [];
-
                 }
             }
         }
@@ -162,29 +155,7 @@ class Day3Controller extends AbstractController
 
     private function getNumbers(int $y, int $i, array $arrayInput): array
     {
-        // check row up <-- 2 options
-        // check left <-- 1 option
-        //check right <-- 1 option
-        // check row down <-- 2 options
         $numbers = [];
-
-//        1|2|3
-//        4|5|6
-//        7|8|9
-
-        // if 2 is !is_numeric
-            // check 1
-            // check 3
-        // else
-            // check 2
-
-        // check 4
-        // check 6
-        // if 8 is !is_numeric
-            // check 7
-            // check 9
-        // else
-            // check 8
 
         if (isset($arrayInput[($y - 1)][($i)]) && !is_numeric($arrayInput[($y - 1)][($i)])) {
             if (isset($arrayInput[($y - 1)][($i - 1)]) && is_numeric($arrayInput[($y - 1)][($i - 1)])) {
