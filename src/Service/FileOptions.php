@@ -7,17 +7,18 @@ class FileOptions
 
     public function loadFile($filename)
     {
-        $fileHandle = fopen('../files/' . $filename, 'rb');
-        return $fileHandle;
+        return fopen('../files/' . $filename, 'rb');
     }
 
-    public function getAllLines($file_handle) {
+    public function getAllLines($file_handle): \Generator
+    {
         while (!feof($file_handle)) {
             yield str_replace(PHP_EOL, '', fgets($file_handle));
         }
     }
 
-    public function getDayInput($formData, int $day) {
+    public function getDayInput($formData, int $day): array|false|\Generator
+    {
         if ($formData['input_type'] !== 'preview') {
             $rows = preg_split("/\r\n|\n|\r/", $formData['input'] ?? '');
         } else {
