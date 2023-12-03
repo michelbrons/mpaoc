@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\DayType;
+use App\Service\Day4;
 use App\Service\FileOptions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Day4Controller extends AbstractController
 {
     #[Route('/day4', name: 'app_day4')]
-    public function index(Request $request, FileOptions $fileOptions): Response
+    public function index(Request $request, FileOptions $fileOptions, Day4 $day4Service): Response
     {
         $day = 4;
         $result = '';
@@ -24,9 +25,9 @@ class Day4Controller extends AbstractController
             $rows = $fileOptions->getDayInput($formData, $day);
 
             if ($formData['day_part'] === 1) {
-                $result = $this->generatePart1($rows);
+                $result = $day4Service->generatePart1($rows);
             } else {
-                $result = $this->generatePart2($rows);
+                $result = $day4Service->generatePart2($rows);
             }
         }
 
@@ -36,15 +37,5 @@ class Day4Controller extends AbstractController
             'result' => $result,
             'form' => $form,
         ]);
-    }
-
-    private function generatePart1($rows): string
-    {
-        return 0;
-    }
-
-    private function generatePart2($rows): string
-    {
-        return 0;
     }
 }
