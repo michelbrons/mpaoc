@@ -33,7 +33,7 @@ class Day4Controller extends AbstractController
 
         return $this->render('day.html.twig', [
             'day_nr' => $day,
-            'day_title' => '???',
+            'day_title' => 'Scratchcards',
             'result' => $result,
             'form' => $form,
         ]);
