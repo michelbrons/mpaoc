@@ -39,10 +39,7 @@ class Day4
                 continue;
             }
             $row = trim(preg_replace('/\r+/', '', $row));
-            // TODO: optimize
-            $row = str_replace('  ', ' ', $row);
-            $row = str_replace('  ', ' ', $row);
-            $row = str_replace('  ', ' ', $row);
+            $row = preg_replace('/\s+/', ' ',$row);
             $rowData = explode(': ', $row);
             $cardId = (int)(explode(' ', $rowData[0]))[1];
             $separateData = explode(' | ', $rowData[1]);
