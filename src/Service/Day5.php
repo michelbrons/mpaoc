@@ -34,9 +34,9 @@ class Day5
     private function recalculateLocations(array $seedLocations, array $convertArray): array
     {
         foreach ($seedLocations as $seedLocationKey => $seedLocation) {
-            foreach ($convertArray as $row) {
-                if (($row[1] <= $seedLocation) && ($seedLocation <= ($row[1] + $row[2]))) {
-                    $seedLocations[$seedLocationKey] = $seedLocation + ($row[0] - $row[1]);
+            foreach ($convertArray as [$nextStartValue, $currentStartValue, $rangeLength]) {
+                if (($currentStartValue <= $seedLocation) && ($seedLocation <= ($currentStartValue + $rangeLength))) {
+                    $seedLocations[$seedLocationKey] = $seedLocation + ($nextStartValue - $currentStartValue);
                     break;
                 }
             }
@@ -94,19 +94,15 @@ class Day5
         foreach ($convertArray as $convertLevel) {
             $newSeedLocations = [];
             while(!empty($seedLocations)) {
-                $seedlocationData = array_shift($seedLocations);
-                $seedLocationStartNr = $seedlocationData[0];
-                $seedLocationEndtNr = $seedlocationData[1];
+                [$seedLocationStartNr, $seedLocationEndtNr] = array_shift($seedLocations);
                 $found = false;
                 foreach ($convertLevel as $convertLevelOption) {
-                    $newValueStart = $convertLevelOption[0];
-                    $optionStartNr = $convertLevelOption[1];
+                    [$newValueStart,$optionStartNr] = $convertLevelOption;
                     $optionEndNr = $convertLevelOption[1]+$convertLevelOption[2];
 
                     if ($seedLocationStartNr > $optionStartNr && $seedLocationStartNr < $optionEndNr) {
                         $newStartLocation = ($seedLocationStartNr - $optionStartNr) + $newValueStart;
                         if ($seedLocationEndtNr > $optionEndNr) {
-
                             $newEndLocation = $convertLevelOption[0]+$convertLevelOption[2];
                             $seedLocations[] = [$optionEndNr+1, $seedLocationEndtNr];
                         } else {
