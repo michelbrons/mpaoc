@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Form\DayType;
-use App\Service\Day5;
+use App\Service\Day6;
 use App\Service\FileOptions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Day6Controller extends AbstractController
 {
     #[Route('/day6', name: 'app_day6')]
-    public function index(Request $request, FileOptions $fileOptions, Day5 $day4Service): Response
+    public function index(Request $request, FileOptions $fileOptions, Day6 $dayService): Response
     {
         $day = 6;
         $result = '';
@@ -25,15 +25,15 @@ class Day6Controller extends AbstractController
             $rows = $fileOptions->getDayInput($formData, $day);
 
             if ($formData['day_part'] === 1) {
-                $result = $day4Service->generatePart1($rows);
+                $result = $dayService->generatePart1($rows);
             } else {
-                $result = $day4Service->generatePart2($rows);
+                $result = $dayService->generatePart2($rows);
             }
         }
 
         return $this->render('day.html.twig', [
             'day_nr' => $day,
-            'day_title' => '???',
+            'day_title' => 'Wait For It',
             'result' => $result,
             'form' => $form,
         ]);

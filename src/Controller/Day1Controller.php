@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Day1Controller extends AbstractController
 {
     #[Route('/day1', name: 'app_day1')]
-    public function index(Request $request, FileOptions $fileOptions, Day1 $day1Service): Response
+    public function index(Request $request, FileOptions $fileOptions, Day1 $dayService): Response
     {
         $day = 1;
         $result = '';
@@ -25,9 +25,9 @@ class Day1Controller extends AbstractController
             $rows = $fileOptions->getDayInput($formData, $day);
 
             if ($formData['day_part'] === 1) {
-                $result = $day1Service->generatePart1($rows);
+                $result = $dayService->generatePart1($rows);
             } else {
-                $result = $day1Service->generatePart2($rows);
+                $result = $dayService->generatePart2($rows);
             }
         }
 
