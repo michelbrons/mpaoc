@@ -34,9 +34,9 @@ class Day5
     private function recalculateLocations(array $seedLocations, array $convertArray): array
     {
         foreach ($seedLocations as $seedLocationKey => $seedLocation) {
-            foreach ($convertArray as [$nextStartValue, $currentStartValue, $rangeLength]) {
-                if (($currentStartValue <= $seedLocation) && ($seedLocation <= ($currentStartValue + $rangeLength))) {
-                    $seedLocations[$seedLocationKey] = $seedLocation + ($nextStartValue - $currentStartValue);
+            foreach ($convertArray as [$nextStartValue, $optionStartNr, $optionRangeLength]) {
+                if (($optionStartNr <= $seedLocation) && ($seedLocation <= ($optionStartNr + $optionRangeLength))) {
+                    $seedLocations[$seedLocationKey] = $seedLocation + ($nextStartValue - $optionStartNr);
                     break;
                 }
             }
@@ -96,29 +96,27 @@ class Day5
             while(!empty($seedLocations)) {
                 [$seedLocationStartNr, $seedLocationEndtNr] = array_shift($seedLocations);
                 $found = false;
-                foreach ($convertLevel as $convertLevelOption) {
-                    [$newValueStart,$optionStartNr] = $convertLevelOption;
-                    $optionEndNr = $convertLevelOption[1]+$convertLevelOption[2];
-
+                foreach ($convertLevel as [$nextStartValue, $optionStartNr, $optionRangeLength]) {
+                    $optionEndNr = $optionStartNr+$optionRangeLength;
                     if ($seedLocationStartNr > $optionStartNr && $seedLocationStartNr < $optionEndNr) {
-                        $newStartLocation = ($seedLocationStartNr - $optionStartNr) + $newValueStart;
+                        $newStartLocation = ($seedLocationStartNr - $optionStartNr) + $nextStartValue;
                         if ($seedLocationEndtNr > $optionEndNr) {
-                            $newEndLocation = $convertLevelOption[0]+$convertLevelOption[2];
+                            $newEndLocation = $nextStartValue+$optionRangeLength;
                             $seedLocations[] = [$optionEndNr+1, $seedLocationEndtNr];
                         } else {
-                            $newEndLocation = ($seedLocationEndtNr - $optionStartNr) + $newValueStart;
+                            $newEndLocation = ($seedLocationEndtNr - $optionStartNr) + $nextStartValue;
                         }
                         $newSeedLocations[] = [$newStartLocation, $newEndLocation];
                         $found = true;
                         break;
                     }
                     if ($seedLocationEndtNr > $optionStartNr && $seedLocationEndtNr < $optionEndNr) {
-                        $newEndLocation = ($seedLocationEndtNr - $optionStartNr) + $newValueStart;
+                        $newEndLocation = ($seedLocationEndtNr - $optionStartNr) + $nextStartValue;
                         if ($seedLocationStartNr < $optionStartNr) {
-                            $newStartLocation = $newValueStart;
+                            $newStartLocation = $nextStartValue;
                             $seedLocations[] = [$seedLocationStartNr, $optionStartNr-1];
                         } else {
-                            $newStartLocation = ($seedLocationStartNr - $optionStartNr) + $newValueStart;
+                            $newStartLocation = ($seedLocationStartNr - $optionStartNr) + $nextStartValue;
                         }
                         $newSeedLocations[] = [$newStartLocation, $newEndLocation];
                         $found = true;
