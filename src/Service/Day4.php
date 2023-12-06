@@ -13,7 +13,7 @@ class Day4
             }
             $row = trim(preg_replace('/\r+/', '', $row));
 
-            $row = str_replace('  ', ' ', $row);
+            $row = preg_replace('/\s+/', ' ',$row);
             $rowData = explode(': ', $row);
 
             $separateData = explode(' | ', $rowData[1]);
