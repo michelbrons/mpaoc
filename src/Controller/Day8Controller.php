@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Day8Controller extends AbstractController
 {
-    #[Route('/day7', name: 'app_day7')]
+    #[Route('/day8', name: 'app_day8')]
     public function index(Request $request, FileOptions $fileOptions, Day8 $dayService): Response
     {
         $day = 8;
