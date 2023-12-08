@@ -33,7 +33,7 @@ class Day8Controller extends AbstractController
 
         return $this->render('day.html.twig', [
             'day_nr' => $day,
-            'day_title' => '???',
+            'day_title' => 'Haunted Wasteland',
             'result' => $result,
             'form' => $form,
         ]);
