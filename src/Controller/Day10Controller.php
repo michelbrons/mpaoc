@@ -3,19 +3,19 @@
 namespace App\Controller;
 
 use App\Form\DayType;
-use App\Service\Day7;
+use App\Service\Day10;
 use App\Service\FileOptions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Day7Controller extends AbstractController
+class Day10Controller extends AbstractController
 {
-    #[Route('/day7', name: 'app_day7')]
-    public function index(Request $request, FileOptions $fileOptions, Day7 $dayService): Response
+    #[Route('/day10', name: 'app_day10')]
+    public function index(Request $request, FileOptions $fileOptions, Day10 $dayService): Response
     {
-        $day = 7;
+        $day = 10;
         $result = '';
         $form = $this->createForm(DayType::class);
 
@@ -33,7 +33,7 @@ class Day7Controller extends AbstractController
 
         return $this->render('day.html.twig', [
             'day_nr' => $day,
-            'day_title' => 'Camel Cards',
+            'day_title' => 'Mirage Maintenance',
             'result' => $result,
             'form' => $form,
         ]);

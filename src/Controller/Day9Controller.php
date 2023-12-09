@@ -15,7 +15,7 @@ class Day9Controller extends AbstractController
     #[Route('/day9', name: 'app_day9')]
     public function index(Request $request, FileOptions $fileOptions, Day9 $dayService): Response
     {
-        $day = 8;
+        $day = 9;
         $result = '';
         $form = $this->createForm(DayType::class);
 
@@ -33,7 +33,7 @@ class Day9Controller extends AbstractController
 
         return $this->render('day.html.twig', [
             'day_nr' => $day,
-            'day_title' => '???',
+            'day_title' => 'Mirage Maintenance',
             'result' => $result,
             'form' => $form,
         ]);
