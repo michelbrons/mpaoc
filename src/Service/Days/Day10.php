@@ -6,48 +6,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Day10 extends AbstractController
 {
-    public function __construct(public array $grid = [], public array $gridBorder = [])
+    public function __construct(public array $grid = [], public array $gridBorder = [], public array $startPosition = [])
     {
     }
 
     public function generatePart1($rows): string
     {
-        // x = -
-        // y = |
-        $startPosition = [];
+        $this->createGrid($rows);
+
+        return $this->findEndPosition();
+    }
+    private function createGrid($rows): void
+    {
         $i = 0;
         foreach ($rows as $row) {
             $row = trim(preg_replace('/\r+/', '', $row));
             $this->grid[] = str_split($row);
-            if (empty($startPosition) && in_array('S', $this->grid[$i], true)) {
-                $startPosition = ['x' => $i, 'y' => array_search('S', $this->grid[$i], true)];
-                $this->gridBorder[$startPosition['x'] . '-' . $startPosition['y']] = $startPosition['x'] . '-' . $startPosition['y'];
+            if (empty($this->startPosition) && in_array('S', $this->grid[$i], true)) {
+                $this->startPosition = ['x' => $i, 'y' => array_search('S', $this->grid[$i], true)];
+                $this->gridBorder[$this->startPosition['x'] . '-' . $this->startPosition['y']] = $this->startPosition['x'] . '-' . $this->startPosition['y'];
             }
             $i++;
         }
-
-        return $this->findEndPosition($startPosition);
     }
 
     public function generatePart2($rows): string
     {
-        // y = |
-        $startPosition = [];
-        $i = 0;
-        foreach ($rows as $row) {
-            $row = trim(preg_replace('/\r+/', '', $row));
-            $this->grid[] = str_split($row);
-            if (empty($startPosition) && in_array('S', $this->grid[$i], true)) {
-                $startPosition = ['x' => $i, 'y' => array_search('S', $this->grid[$i], true)];
-                $this->gridBorder[$startPosition['x'] . '-' . $startPosition['y']] = $startPosition['x'] . 'S' . $startPosition['y'];
-            }
-            $i++;
-        }
+        $this->createGrid($rows);
+        $this->findEndPosition();
 
+        return $this->findTotalInLoop();
+    }
 
-        $this->findEndPosition($startPosition);
-//        ksort($this->gridBorder);
-//dump($this->gridBorder);
+    /*
+     * Info for finding fields in the loop
+     * https://www.youtube.com/watch?v=4OLGoYnBh5o
+     */
+    private function findTotalInLoop(): int
+    {
         $totalInloop = 0;
         $maxY = count($this->grid[0]);
         foreach ($this->grid as $x => $xValue) {
@@ -97,67 +93,18 @@ class Day10 extends AbstractController
                     }
                 }
                 if ($inloop === 1) {
-                    dump($x . '<->' . $y);
                     $totalInloop++;
                 }
             }
-                // 7 F | J L
-//                if (in_array($x . '-' . $y, $this->gridBorder, true)) {
-//                    continue;
-//                }
-//
-//                if (in_array($x . '|' . $y, $this->gridBorder, true)) {
-//                    $lastDirection = '';
-//                    $inloop = $inloop === 0 ? 1 : 0;
-//                    continue;
-//                }
-//                if (in_array($x . 'F' . $y, $this->gridBorder, true)) {
-//                    $lastDirection = 'F';
-//                    continue;
-//                }
-//                if ($lastDirection === 'F') {
-//                    if (in_array($x . '7' . $y, $this->gridBorder, true)) {
-//                        $lastDirection = '';
-//                        continue;
-//                    }
-//                    if (in_array($x . 'J' . $y, $this->gridBorder, true)) {
-//                        $lastDirection = '';
-//                        $inloop = $inloop === 0 ? 1 : 0;
-//                        continue;
-//                    }
-//                }
-//                if (in_array($x . 'L' . $y, $this->gridBorder, true)) {
-//                    $lastDirection = 'L';
-//                    continue;
-//                }
-//                if ($lastDirection === 'L') {
-//                    if (in_array($x . 'J' . $y, $this->gridBorder, true)) {
-//                        $lastDirection = '';
-//                        continue;
-//                    }
-//                    if (in_array($x . '7' . $y, $this->gridBorder, true)) {
-//                        $lastDirection = '';
-//                        $inloop = $inloop === 0 ? 1 : 0;
-//                        continue;
-//                    }
-//                }
-//                if ($inloop === 1) {
-//                    dump($x . '<->' . $y);
-//                    $totalInloop++;
-//                }
-
-            dump('--------------');
         }
-//dump($this->gridBorder);
-//        dd($totalInloop);
 
         return $totalInloop;
     }
 
-    private function findEndPosition(array $startPosition): int
+    private function findEndPosition(): int
     {
         $i = 1;
-        $firstPositions = $this->findFirstPositions($startPosition);
+        $firstPositions = $this->findFirstPositions($this->startPosition);
         $position1 = $firstPositions[0];
         $position2 = $firstPositions[1];
 
