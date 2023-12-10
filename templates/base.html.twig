@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Your Symfony App{% endblock %}</title>
     {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
         {{ encore_entry_link_tags('bootstrap') }}
         <!-- Add additional stylesheets here -->
     {% endblock %}
