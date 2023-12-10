@@ -41,6 +41,7 @@ class Day10 extends AbstractController
     /*
      * Info for finding fields in the loop
      * https://www.youtube.com/watch?v=4OLGoYnBh5o
+     * https://en.wikipedia.org/wiki/Nonzero-rule
      */
     private function findTotalInLoop(): int
     {
