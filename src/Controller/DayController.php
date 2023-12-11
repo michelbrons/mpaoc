@@ -40,8 +40,9 @@ class DayController extends AbstractDayController
         $day = 1;
         $title = 'Trebuchet?!';
         $form = $this->getForm($request);
+        $formData = $form->getData();
         $inputRows = $fileOptions->getDayInput($form, $day);
-        $result = $dayService->generate($inputRows, $form['day_part']);
+        $result = $dayService->generate($inputRows, $formData['day_part'] ?? 1);
 
         return $this->renderDayPage($day, $title, $result, $form);
     }
