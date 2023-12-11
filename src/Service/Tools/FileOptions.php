@@ -2,6 +2,9 @@
 
 namespace App\Service\Tools;
 
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
+
 class FileOptions
 {
 
@@ -17,8 +20,13 @@ class FileOptions
         }
     }
 
-    public function getDayInput($formData, int $day): array|false|\Generator
+    public function getDayInput(Form $form, int $day): array
     {
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return [];
+        }
+        $formData = $form->getData();
+
         if ($formData['input_type'] !== 'preview') {
             $rows = preg_split("/\r\n|\n|\r/", $formData['input'] ?? '');
         } else {

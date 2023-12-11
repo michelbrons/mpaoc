@@ -2,7 +2,7 @@
 
 namespace App\Service\Days;
 
-class Day1
+class Day1 extends AbstractDayService
 {
     public function generatePart1($rows): string
     {
